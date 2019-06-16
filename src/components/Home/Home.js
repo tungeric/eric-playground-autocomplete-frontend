@@ -7,26 +7,36 @@ class Home extends Component {
   constructor() {
     super()
     this.state = {
-      data: 5,
-      searchTest: ''
+      searchText: ''
     }
   }
   componentDidMount() {
-    fetch('http://localhost:8080/greeting')
+    this.runSearch();
+  }
+
+  runSearch(name) {
+    const url = `http://localhost:8080/greeting?name=${name}`;
+    fetch(url)
       .then(response => response.json())
-      .then(data => this.setState(data, () => { console.log("DATA: ", data); }));
+      .then(data => this.setState(data));
+  }
+
+  handleTextUpdate = (e) => {
+    this.runSearch(e.target.value);
+    this.setState({
+      searchText: e.target.value
+    })
   }
 
   render() {
-    const { data } = this.state;
+    const { id, content, searchText } = this.state;
     return (
       <div>
         <form>
-          <input type="text" name="fname" />
-          <input type="text" name="lname" />
+          <input type="text" name="fname" onChange={this.handleTextUpdate}/>
           <input type="submit" value="Submit" />
         </form>
-        <AutocompleteContainer data={data} />
+        <AutocompleteContainer id={id} content={content} />
       </div>
     )
   }

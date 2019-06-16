@@ -4,11 +4,11 @@ import { withRouter } from 'react-router'
 class AutocompleteContainer extends Component {
 
   render() {
-    const { data } = this.props
-    console.log("THE DATA: ", data);
+    const { id, content } = this.props
     return (
       <div>
-        {data}
+        {id}
+        {content}
       </div>
     )
   }
