@@ -7,6 +7,7 @@ class Home extends Component {
   constructor() {
     super()
     this.state = {
+      list: [],
       searchText: ''
     }
   }
@@ -14,11 +15,14 @@ class Home extends Component {
     this.runSearch();
   }
 
-  runSearch(name) {
-    const url = `http://localhost:8080/greeting?name=${name}`;
+  runSearch(word) {
+    const { list } = this.state;
+    const url = `http://localhost:8080/autocomplete?word=${word}`;
     fetch(url)
       .then(response => response.json())
-      .then(data => this.setState(data));
+      .then(data => {
+        this.setState({ list: data });
+      });
   }
 
   handleTextUpdate = (e) => {
@@ -29,6 +33,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log("STATE: ", this.state);
     const { id, content, searchText } = this.state;
     return (
       <div>
